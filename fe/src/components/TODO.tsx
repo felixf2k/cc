@@ -1,14 +1,47 @@
 "use client";
+import { create } from "@/requests/create";
 import type { Todo } from "../../../types/todo";
+import { update } from "@/requests/update";
+import { useEffect, useState } from "react";
+import { useDebounce } from "use-debounce";
+
+export const CREATE_ID = "create";
 
 interface Props {
-  onChange: (todo: Todo) => void;
+  invalidate: (todo: Todo) => void;
+  remove: (id: string) => void;
 }
 
 export default function TODO(props: Todo & Props) {
-  function onChange(newTodo: Todo) {
-    console.log(newTodo);
-    props.onChange(newTodo);
+  const [todo, setTodo] = useState<Todo>(props);
+  const [debounced] = useDebounce(todo, 500);
+
+  useEffect(
+    function sendRequestAndInvalidate() {
+      sendRequest(debounced);
+    },
+    [debounced]
+  );
+
+  async function sendRequest(newTodo: Todo) {
+    if (newTodo.id === CREATE_ID) {
+      try {
+        const { id } = await create(newTodo);
+        props.invalidate({ ...newTodo, id });
+        props.remove(CREATE_ID);
+      } catch (e) {
+        console.error(e);
+        alert("Todo konnte nicht erstellt werden");
+      }
+    } else {
+      try {
+        await update(newTodo);
+        props.invalidate(newTodo);
+      } catch (e) {
+        console.error(e);
+        alert("Todo konnte nicht aktualisiert werden");
+      }
+    }
   }
 
   return (
@@ -16,31 +49,31 @@ export default function TODO(props: Todo & Props) {
       <div className="flex flex-row items-center gap-2">
         <input
           type="checkbox"
-          checked={props.done}
+          checked={todo.done}
           onChange={() => {
-            onChange({ ...props, done: !props.done });
+            setTodo({ ...props, done: !todo.done });
           }}
           className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
         />
         <input
           type="text"
-          value={props.title}
+          value={todo.title}
           onChange={(e) => {
-            onChange({ ...props, title: e.target.value });
+            setTodo({ ...props, title: e.target.value });
           }}
         />
       </div>
       <textarea
-        value={props.description}
+        value={todo.description}
         onChange={(e) => {
-          onChange({ ...props, description: e.target.value });
+          setTodo({ ...props, description: e.target.value });
         }}
       />
       <input
         type="date"
-        value={props.due.toISOString().split("T")[0]}
+        value={todo.due.toISOString().split("T")[0]}
         onChange={(e) => {
-          onChange({ ...props, due: new Date(e.target.value) });
+          setTodo({ ...props, due: new Date(e.target.value) });
         }}
       />
     </div>
