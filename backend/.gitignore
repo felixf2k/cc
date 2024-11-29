@@ -1,2 +1,6 @@
 /node_modules
+<<<<<<< HEAD
 *.sh
+=======
+*.sh
+>>>>>>> b42f54b7baa02b0dcd2f02bb6f910d229545dce9

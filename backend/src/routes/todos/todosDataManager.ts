@@ -4,15 +4,14 @@ import { Todo } from "../../../../types/todo";
 import { v4 as uuidv4 } from 'uuid';
 
 let todoListMap: Map<string, Todo> = new Map<string, Todo>;
-let init: boolean = false;
+let init: boolean = true;
 const fileName: string = 'data.json';
 
 export function getTodoList() {
     if (!init) {
-        // readFromFile();
+        readFromFile();
         init = true;
     }
-    saveToFile();
     return Array.from(todoListMap.values());
 }
 
@@ -48,7 +47,7 @@ export function deleteTodo(id: string) {
 
 function saveToFile() {
     const jsonString = JSON.stringify(todoListMap, null, 2); // Pretty print with 2 spaces
-
+    console.log(jsonString);
     fs.writeFileSync(fileName, jsonString);
     console.log('JSON file has been saved.');
 }
