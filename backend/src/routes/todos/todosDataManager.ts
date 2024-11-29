@@ -55,7 +55,7 @@ function saveToFile() {
 function readFromFile() {
     let data = fs.readFileSync(fileName, 'utf8');
     console.log(data);
-    todoListMap = JSON.parse(data);
+    todoListMap = JSON.parse(data) as Map<string, Todo>;
     console.log(todoListMap);
     console.log('Map loaded from file');
 }
