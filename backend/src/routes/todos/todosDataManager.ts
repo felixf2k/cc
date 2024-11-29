@@ -53,7 +53,7 @@ function saveToFile() {
 }
 
 function readFromFile() {
-    const data = fs.readFileSync('myMap.json', 'utf-8');
+    const data = fs.readFileSync(fileName, 'utf-8');
     const entriesArray = JSON.parse(data);
     
     todoListMap = new Map<string, Todo>(entriesArray);
