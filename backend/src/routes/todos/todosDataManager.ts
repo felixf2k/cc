@@ -39,7 +39,7 @@ export function deleteTodo(id: string) {
         readFromFile();
         init = true;
     }
-    
+
     let deleted = todoListMap.delete(id);
     saveToFile();
     return deleted;
@@ -54,6 +54,8 @@ function saveToFile() {
 
 function readFromFile() {
     let data = fs.readFileSync(fileName, 'utf8');
+    console.log(data);
     todoListMap = JSON.parse(data);
-    console.log('List loaded from file');
+    console.log(todoListMap);
+    console.log('Map loaded from file');
 }
