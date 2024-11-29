@@ -4,10 +4,11 @@ import { Todo } from "../../../../types/todo";
 import { v4 as uuidv4 } from 'uuid';
 
 const todoListMap: Map<string, Todo> = new Map<string, Todo>;
+
 // const fileName: string = 'data.json';
 
 export function getTodoList() {
-    return [...todoListMap.entries()];
+    return Array.from(todoListMap.values());
 }
 
 export function addTodo(data: Todo): Todo {
