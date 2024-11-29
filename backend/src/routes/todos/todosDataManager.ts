@@ -39,7 +39,6 @@ export function deleteTodo(id: string) {
         readFromFile();
         init = true;
     }
-
     let deleted = todoListMap.delete(id);
     saveToFile();
     return deleted;
