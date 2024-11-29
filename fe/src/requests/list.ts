@@ -7,5 +7,8 @@ export async function list() {
   if (!result.ok) {
     throw new Error("Failed to list todos:" + (await result.text()));
   }
-  return (await result.json()) as Todo[];
+  return ((await result.json()) as (Todo & { due: string })[]).map((t) => ({
+    ...t,
+    due: new Date(t.due),
+  })) as Todo[];
 }
