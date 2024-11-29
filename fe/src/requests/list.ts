@@ -1,5 +1,6 @@
 import { Todo } from "../../../types/todo";
 
+// lists all todos
 export async function list() {
   const result = await fetch(`/api/v1/todos`, {
     method: "GET",

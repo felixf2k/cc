@@ -1,5 +1,6 @@
 import { Todo } from "../../../types/todo";
 
+// updates an existing todo
 export async function update(todo: Todo) {
   const result = await fetch(`/api/v1/todos/${todo.id}`, {
     method: "PUT",

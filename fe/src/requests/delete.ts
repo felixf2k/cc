@@ -1,3 +1,4 @@
+// deletes a todo
 export async function deleteTodo(id: string) {
   const result = await fetch(`/api/v1/todos/${id}`, {
     method: "DELETE",
