@@ -14,14 +14,6 @@ interface Props {
 
 export default function TODO(props: Todo & Props) {
   const [todo, setTodo] = useState<Todo>(props);
-  const [debounced] = useDebounce(todo, 500);
-
-  useEffect(
-    function sendRequestAndInvalidate() {
-      sendRequest(debounced);
-    },
-    [debounced]
-  );
 
   async function sendRequest(newTodo: Todo) {
     if (newTodo.id === CREATE_ID) {
@@ -76,6 +68,13 @@ export default function TODO(props: Todo & Props) {
           setTodo({ ...props, due: new Date(e.target.value) });
         }}
       />
+      <button
+        onClick={() => {
+          sendRequest(todo);
+        }}
+      >
+        Speichern
+      </button>
     </div>
   );
 }
