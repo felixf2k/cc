@@ -108,6 +108,7 @@ export default function TODO(props: Todo & Props) {
           <button
             onClick={async () => {
               if (confirm("Möchtest du das Todo wirklich löschen?")) {
+                setLoading(true);
                 await deleteTodo(todo.id);
                 props.remove(todo.id);
               }

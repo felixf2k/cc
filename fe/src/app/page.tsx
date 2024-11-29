@@ -4,10 +4,10 @@ import TODO, { CREATE_ID } from "@/components/TODO";
 import { useEffect, useState } from "react";
 import type { Todo } from "../../../types/todo";
 import { list } from "@/requests/list";
-import Head from "next/head";
 
 export default function Home() {
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [loading, setLoading] = useState(true);
   const create = todos.find((t) => t.id === CREATE_ID);
 
   const todosWithoutCraete = todos.filter((t) => t.id !== CREATE_ID);
@@ -18,10 +18,12 @@ export default function Home() {
     list()
       .then((todos) => {
         setTodos(todos);
+        setLoading(false);
       })
       .catch((e) => {
         console.error(e);
         alert("Todos konnten nicht geladen werden");
+        setLoading(false);
       });
   }, []);
 
@@ -55,18 +57,24 @@ export default function Home() {
           Erledigte
         </p>
       </div>
-      <div className="overflow-auto grow">
-        <div className="flex flex-col gap-4 p-4">
-          {todos.map((todo) => (
-            <TODO
-              {...todo}
-              key={todo.id}
-              invalidate={invalidate}
-              remove={remove}
-            />
-          ))}
+      {loading ? (
+        <div className="h-72 w-72 bg-gray-100 rounded flex items-center justify-center">
+          Todos werden geladen...
         </div>
-      </div>
+      ) : (
+        <div className="overflow-auto grow">
+          <div className="flex flex-col gap-4 p-4">
+            {todos.map((todo) => (
+              <TODO
+                {...todo}
+                key={todo.id}
+                invalidate={invalidate}
+                remove={remove}
+              />
+            ))}
+          </div>
+        </div>
+      )}
       <div className="px-4">
         {!create && (
           <button
