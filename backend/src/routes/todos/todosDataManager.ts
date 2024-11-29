@@ -46,16 +46,17 @@ export function deleteTodo(id: string) {
 }
 
 function saveToFile() {
-    const jsonString = JSON.stringify(todoListMap, null, 2); // Pretty print with 2 spaces
-    console.log(jsonString);
-    fs.writeFileSync(fileName, jsonString);
-    console.log('JSON file has been saved.');
+    const entriesArray = Array.from(todoListMap.entries());
+
+    fs.writeFileSync(fileName, JSON.stringify(entriesArray, null, 2));
+    console.log('Map saved to file.');
 }
 
 function readFromFile() {
-    let data = fs.readFileSync(fileName, 'utf8');
-    console.log(data);
-    todoListMap = JSON.parse(data) as Map<string, Todo>;
-    console.log(todoListMap);
-    console.log('Map loaded from file');
+    const data = fs.readFileSync('myMap.json', 'utf-8');
+    const entriesArray = JSON.parse(data);
+    
+    todoListMap = new Map<string, Todo>(entriesArray);
+
+    console.log('Map loaded from file:', todoListMap);
 }
