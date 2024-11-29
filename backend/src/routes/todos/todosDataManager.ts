@@ -9,9 +9,10 @@ const fileName: string = 'data.json';
 
 export function getTodoList() {
     if (!init) {
-        readFromFile();
+        // readFromFile();
         init = true;
     }
+    saveToFile();
     return Array.from(todoListMap.values());
 }
 
