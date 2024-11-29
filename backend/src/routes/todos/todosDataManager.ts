@@ -16,17 +16,30 @@ export function getTodoList() {
 }
 
 export function addTodo(data: Todo): Todo {
+    if (!init) {
+        readFromFile();
+        init = true;
+    }
     data.id = uuidv4();
     return modifyTodo(data);
 }
 
 export function modifyTodo(data: Todo): Todo {
+    if (!init) {
+        readFromFile();
+        init = true;
+    }
     todoListMap.set(data.id, data);
     saveToFile();
     return data;
 }
 
 export function deleteTodo(id: string) {
+    if (!init) {
+        readFromFile();
+        init = true;
+    }
+
     let deleted = todoListMap.delete(id);
     saveToFile();
     return deleted;
