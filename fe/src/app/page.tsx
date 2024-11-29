@@ -44,9 +44,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-4 justify-start items-start bg-gray-50 rounded-xl py-8 px-4 overflow-hidden">
-      <Head>
-        <title>Todo app</title>
-      </Head>
       <h1 className="text-xl font-semibold px-4">Simple Todo App 🚀</h1>
       <div className="px-4">
         <p className="flex flex-row items-center gap-1">
