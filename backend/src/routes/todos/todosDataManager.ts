@@ -40,6 +40,7 @@ export function deleteTodo(id: string) {
         init = true;
     }
 
+    console.log(todoListMap);
     let deleted = todoListMap.delete(id);
     saveToFile();
     return deleted;
