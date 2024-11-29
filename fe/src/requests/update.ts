@@ -1,4 +1,3 @@
-import { log } from "console";
 import { Todo } from "../../../types/todo";
 
 export async function update(todo: Todo) {
