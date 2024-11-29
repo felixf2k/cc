@@ -14,10 +14,14 @@ interface Props {
 }
 
 export default function TODO(props: Todo & Props) {
+  // the todo, in a seperate state to allow editing
   const [todo, setTodo] = useState<Todo>(props);
+  // whether there are no unsaved changes
   const [saved, setSaved] = useState(props.id !== CREATE_ID);
+  // whether the request is currently being sent
   const [loading, setLoading] = useState(false);
 
+  // sets the todo state and resets the saved state
   function setTodoState(newTodo: Todo) {
     setTodo(newTodo);
     setSaved(false);
@@ -25,9 +29,11 @@ export default function TODO(props: Todo & Props) {
 
   async function sendRequest(newTodo: Todo) {
     setLoading(true);
+    // if a new TODO should be created the id is the CREATE_ID
     if (newTodo.id === CREATE_ID) {
       try {
         const { id } = await create(newTodo);
+        // update the list with the new todo
         props.invalidate({ ...newTodo, id });
       } catch (e) {
         console.error(e);
@@ -42,6 +48,7 @@ export default function TODO(props: Todo & Props) {
         alert("Todo konnte nicht aktualisiert werden");
       }
     }
+    // reset loading/saved states
     setLoading(false);
     setSaved(true);
   }
