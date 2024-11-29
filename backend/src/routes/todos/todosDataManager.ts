@@ -4,7 +4,7 @@ import { Todo } from "../../../../types/todo";
 import { v4 as uuidv4 } from 'uuid';
 
 let todoListMap: Map<string, Todo> = new Map<string, Todo>;
-let init: boolean = true;
+let init: boolean = false;
 const fileName: string = 'data.json';
 
 export function getTodoList() {
