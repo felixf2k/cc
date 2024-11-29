@@ -2,7 +2,7 @@ import { log } from "console";
 import { Todo } from "../../../types/todo";
 
 export async function update(todo: Todo) {
-  const result = await fetch(`${process.env.BACKEND_URL}/todos/${todo.id}`, {
+  const result = await fetch(`/api/v1/todos/${todo.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",

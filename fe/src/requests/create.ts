@@ -1,7 +1,7 @@
 import { Todo } from "../../../types/todo";
 
 export async function create(todo: Todo): Promise<{ id: string }> {
-  const result = await fetch(`${process.env.BACKEND_URL}/todos`, {
+  const result = await fetch(`/api/v1/todos`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

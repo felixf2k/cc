@@ -1,5 +1,5 @@
 export async function deleteTodo(id: string) {
-  const result = await fetch(`${process.env.BACKEND_URL}/todos/${id}`, {
+  const result = await fetch(`/api/v1/todos/${id}`, {
     method: "DELETE",
   });
   if (!result.ok) {

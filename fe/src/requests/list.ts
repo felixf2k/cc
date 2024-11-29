@@ -1,7 +1,7 @@
 import { Todo } from "../../../types/todo";
 
 export async function list() {
-  const result = await fetch(`${process.env.BACKEND_URL}/todos`, {
+  const result = await fetch(`/api/v1/todos`, {
     method: "GET",
   });
   if (!result.ok) {
