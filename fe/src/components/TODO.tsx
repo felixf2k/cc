@@ -2,7 +2,7 @@
 import { create } from "@/requests/create";
 import type { Todo } from "../../../types/todo";
 import { update } from "@/requests/update";
-import { use, useEffect, useState } from "react";
+import { useState } from "react";
 import { deleteTodo } from "@/requests/delete";
 import clsx from "clsx";
 

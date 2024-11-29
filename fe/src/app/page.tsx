@@ -4,7 +4,6 @@ import TODO, { CREATE_ID } from "@/components/TODO";
 import { useEffect, useState } from "react";
 import type { Todo } from "../../../types/todo";
 import { list } from "@/requests/list";
-import { log } from "console";
 import Head from "next/head";
 
 export default function Home() {
