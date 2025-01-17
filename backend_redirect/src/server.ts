@@ -47,20 +47,16 @@ app.post('/entry', authMiddleware, (req: Request, res: Response) => {
     res.status(200).send("http://localhost:2000/" + slug);
 })
 
-
-
 routes = readFromFile();
 // Start the server
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
 });
 
-
 function saveFile() {
     fs.writeFileSync(FILE_NAME, JSON.stringify(routes, null, 2));
     console.log('Map saved to file.');
 }
-
 
 function readFromFile(): Record<string,string> {
     const data = fs.readFileSync(FILE_NAME, 'utf-8');
