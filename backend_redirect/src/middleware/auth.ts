@@ -9,7 +9,7 @@ const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
         return;
     }
 
-    const validToken = process.env.TOKEN;
+    const validToken = process.env.TOKEN || "changeme";
     if (!validToken) {
         res.status(500).send("Env missing");
         return;

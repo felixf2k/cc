@@ -2,6 +2,7 @@ import Express, { Request, Response } from "express";
 import cors from "cors";
 import logger from "./middleware/logging";
 import fs from 'fs';
+import authMiddleware from "./middleware/auth";
 
 let routes: Record<string, string>;
 const FILE_NAME: string = 'routes.json';
@@ -14,8 +15,14 @@ app.use(logger);
 app.use(cors());
 app.use(Express.json());
 
-app.get("/entries", (req: Request, res: Response) => {
+app.get("/entries", authMiddleware, (req: Request, res: Response) => {
     res.status(200).json(routes);
+})
+
+app.delete('/entry/:slug', authMiddleware, (req: Request, res: Response) => {   
+    delete routes[req.params.slug];
+    saveFile();
+    res.status(200).send('Deleted');
 })
 
 app.get('/:slug', (req: Request, res: Response) => {
@@ -26,7 +33,7 @@ app.get('/:slug', (req: Request, res: Response) => {
     return res.redirect(302, match);
 });
 
-app.post('/:slug', (req: Request, res: Response) => {
+app.post('/:slug', authMiddleware, (req: Request, res: Response) => {
     const slug = req.params.slug;
     const route = req.query.route;
     if(!route) {
@@ -34,14 +41,9 @@ app.post('/:slug', (req: Request, res: Response) => {
     }
     routes[slug] = route as string;
     saveFile();
-    res.status(200).send('Saved');
+    res.status(200).send("http://localhost:2000/" + slug);
 })
 
-app.delete('/entry/:slug', (req: Request, res: Response) => {   
-    delete routes[req.params.slug];
-    saveFile();
-    res.status(200).send('Deleted');
-})
 
 
 routes = readFromFile();
