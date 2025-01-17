@@ -6,7 +6,7 @@ services:
       - "127.0.0.1:2000:2000"
     working_dir: /app
     volumes:
-      - routes-data:/app
+      - routes-data:/app/data
     environment:
       TOKEN: toller_token
 

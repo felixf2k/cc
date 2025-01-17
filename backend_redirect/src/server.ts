@@ -5,7 +5,7 @@ import fs from 'fs';
 import authMiddleware from "./middleware/auth";
 
 let routes: Record<string, string>;
-const FILE_NAME: string = 'routes.json';
+const FILE_NAME: string = 'data/routes.json';
 
 const app = Express();
 const port = 2000;
