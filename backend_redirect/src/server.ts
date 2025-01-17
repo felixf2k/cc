@@ -39,6 +39,7 @@ app.post('/entry', authMiddleware, (req: Request, res: Response) => {
     if(!route) {
       res.status(400).send('Missing route');
     }
+    console.log("slug:", slug)
     if(!slug) {
         slug = crypto.randomUUID();
     }
