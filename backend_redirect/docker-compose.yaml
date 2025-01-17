@@ -1,0 +1,14 @@
+services:
+  redirect:
+    image: redirect-manager
+    container_name: redirect
+    ports:
+      - "127.0.0.1:2000:2000"
+    working_dir: /app
+    volumes:
+      - routes-data:/app
+    environment:
+      TOKEN: toller_token
+
+volumes:
+  routes-data:
