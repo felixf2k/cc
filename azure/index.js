@@ -6,7 +6,7 @@ async function handler(
 ) {
     try {
         let distance, fuelEfficiency, fuelPrice;
-        if(request.body) {
+        if (request.body) {
             distance = request.body.distance;
             fuelEfficiency = request.body.fuelEfficiency;
             fuelPrice = request.body.fuelPrice;
@@ -17,17 +17,17 @@ async function handler(
         }
     
         context.log("values: ", distance, fuelEfficiency, fuelPrice);
-        if(!distance || !fuelEfficiency || !fuelPrice) {
+        if (!distance || !fuelEfficiency || !fuelPrice) {
             context.res = {
                 status: 400,
                 body: `Missing required parameters (${!distance ? ' distance, ' : ''} ${!fuelEfficiency ? 'fuelEfficiency, ' : ''} ${!fuelPrice ? 'fuelPrice' : ''})`,
             };
             return;
         }
-    
+
         const totalCost = calculateTripCost(Number.parseFloat(distance), Number.parseFloat(fuelEfficiency), Number.parseFloat(fuelPrice));
-    
-        context.res = { body: `Total trip price: ${totalCost}€`, status: 200 };
+
+        context.res = {body: `Total trip price: ${totalCost}€`, status: 200};
     } catch (error) {
         context.log(error);
         context.res = {
