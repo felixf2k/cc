@@ -15,8 +15,7 @@ async function handler(
             fuelEfficiency = request.query.fuelEfficiency;
             fuelPrice = request.query.fuelPrice;
         }
-    
-        context.log("values: ", distance, fuelEfficiency, fuelPrice);
+        
         if (!distance || !fuelEfficiency || !fuelPrice) {
             context.res = {
                 status: 400,
@@ -35,18 +34,9 @@ async function handler(
             status: 500,
         }
     }
-
 }
 
-function calculateTripCost(
-    distance,
-    fuelEfficiency,
-    fuelPrice,
-    otherExpenses = 0,
-) {
-    // Calculate the fuel needed
+function calculateTripCost(distance, fuelEfficiency, fuelPrice) {
     const fuelNeeded = (distance / 100) * fuelEfficiency;
-    const fuelCost = fuelNeeded * fuelPrice;
-    const totalCost = fuelCost + otherExpenses;
-    return totalCost;
+    return fuelNeeded * fuelPrice;
 }
