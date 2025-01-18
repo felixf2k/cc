@@ -8,14 +8,21 @@ import {
 async function helloWorld1(
     request: HttpRequest,
 ): Promise<HttpResponseInit> {
-    const distance = request.query.distance || request.body.distance;
-    const fuelEfficiency =
+    const distance: string = request.query.distance || request.body.distance;
+    const fuelEfficiency: string =
         request.query.fuelEfficiency || request.body.fuelEfficiency;
-    const fuelPrice = request.query.fuelPrice || request.body.fuelPrice;
+    const fuelPrice: string = request.query.fuelPrice || request.body.fuelPrice;
 
-    const totalCost = calculateTripCost(distance, fuelEfficiency, fuelPrice);
+    if(!distance || !fuelEfficiency || !fuelPrice) {
+        return {
+            status: 400,
+            body: `Missing required parameters (${!distance ? ' distance, ' : ''} ${!fuelEfficiency ? 'fuelEfficiency, ' : ''} ${!fuelPrice ? 'fuelPrice' : ''})`,
+        }
+    }
 
-    return { body: totalCost };
+    const totalCost = calculateTripCost(Number.parseFloat(distance), Number.parseFloat(fuelEfficiency), Number.parseFloat(fuelPrice));
+
+    return { body: totalCost, status: 200 };
 }
 
 app.http('tripCost', {
