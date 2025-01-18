@@ -1,11 +1,10 @@
-
 import {
     app,
     HttpRequest,
     HttpResponseInit,
 } from '@azure/functions';
 
-async function helloWorld1(
+async function handler(
     request: HttpRequest,
 ): Promise<HttpResponseInit> {
     const distance: string = request.query.distance || request.body.distance;
@@ -27,7 +26,7 @@ async function helloWorld1(
 
 app.http('tripCost', {
     methods: ['GET'],
-    handler: helloWorld1,
+    handler,
 });
 
 function calculateTripCost(
