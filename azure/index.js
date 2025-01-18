@@ -1,19 +1,16 @@
 import {
     app,
-    HttpRequest,
-    HttpResponseInit,
-    InvocationContext
 } from '@azure/functions';
 
 async function handler(
-    request: HttpRequest,
-    context: InvocationContext
-): Promise<HttpResponseInit> {
+    request,
+    context
+) {
     try {
-        const distance: string = request.query.distance || request.body.distance;
-        const fuelEfficiency: string =
+        const distance = request.query.distance || request.body.distance;
+        const fuelEfficiency =
             request.query.fuelEfficiency || request.body.fuelEfficiency;
-        const fuelPrice: string = request.query.fuelPrice || request.body.fuelPrice;
+        const fuelPrice = request.query.fuelPrice || request.body.fuelPrice;
     
         if(!distance || !fuelEfficiency || !fuelPrice) {
             return {
@@ -41,11 +38,11 @@ app.http('tripCost', {
 });
 
 function calculateTripCost(
-    distance: number,
-    fuelEfficiency: number,
-    fuelPrice: number,
-    otherExpenses: number = 0,
-): number {
+    distance,
+    fuelEfficiency,
+    fuelPrice,
+    otherExpenses = 0,
+) {
     // Calculate the fuel needed
     const fuelNeeded = distance / fuelEfficiency;
     const fuelCost = fuelNeeded * fuelPrice;
