@@ -5,11 +5,18 @@ async function handler(
     request,
 ) {
     try {
-        const distance = (request.body && request.body.distance) || request.query.distance; 
-        const fuelEfficiency =(request.body && request.body.fuelEfficiency) || request.query.fuelEfficiency ;
-        const fuelPrice = (request.body && request.body.fuelPrice) || request.query.fuelPrice;
+        let distance, fuelEfficiency, fuelPrice;
+        if(request.body) {
+            distance = request.body.distance;
+            fuelEfficiency = request.body.fuelEfficiency;
+            fuelPrice = request.body.fuelPrice;
+        } else {
+            distance = request.query.distance;
+            fuelEfficiency = request.query.fuelEfficiency;
+            fuelPrice = request.query.fuelPrice;
+        }
     
-        context.log("values: ",distance, fuelEfficiency, fuelPrice);
+        context.log("values: ", distance, fuelEfficiency, fuelPrice);
         if(!distance || !fuelEfficiency || !fuelPrice) {
             context.res = {
                 status: 400,
