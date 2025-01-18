@@ -5,9 +5,9 @@ async function handler(
     request,
 ) {
     try {
-        const distance = request.query.distance || (request.body && request.body.distance);
-        const fuelEfficiency = request.query.fuelEfficiency || (request.body && request.body.fuelEfficiency);
-        const fuelPrice = request.query.fuelPrice || (request.body && request.body.fuelPrice);
+        const distance = (request.body && request.body.distance) || request.query.distance; 
+        const fuelEfficiency =(request.body && request.body.fuelEfficiency) || request.query.fuelEfficiency ;
+        const fuelPrice = (request.body && request.body.fuelPrice) || request.query.fuelPrice;
     
         context.log("values: ",distance, fuelEfficiency, fuelPrice);
         if(!distance || !fuelEfficiency || !fuelPrice) {
@@ -20,7 +20,7 @@ async function handler(
     
         const totalCost = calculateTripCost(Number.parseFloat(distance), Number.parseFloat(fuelEfficiency), Number.parseFloat(fuelPrice));
     
-        context.res = { body: totalCost, status: 200 };
+        context.res = { body: `Total trip price: ${totalCost}€`, status: 200 };
     } catch (error) {
         context.log(error);
         context.res = {
@@ -38,7 +38,7 @@ function calculateTripCost(
     otherExpenses = 0,
 ) {
     // Calculate the fuel needed
-    const fuelNeeded = distance / fuelEfficiency;
+    const fuelNeeded = (distance / 100) * fuelEfficiency;
     const fuelCost = fuelNeeded * fuelPrice;
     const totalCost = fuelCost + otherExpenses;
     return totalCost;
