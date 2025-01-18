@@ -7,21 +7,30 @@ import {
 async function handler(
     request: HttpRequest,
 ): Promise<HttpResponseInit> {
-    const distance: string = request.query.distance || request.body.distance;
-    const fuelEfficiency: string =
-        request.query.fuelEfficiency || request.body.fuelEfficiency;
-    const fuelPrice: string = request.query.fuelPrice || request.body.fuelPrice;
-
-    if(!distance || !fuelEfficiency || !fuelPrice) {
+    try {
+        const distance: string = request.query.distance || request.body.distance;
+        const fuelEfficiency: string =
+            request.query.fuelEfficiency || request.body.fuelEfficiency;
+        const fuelPrice: string = request.query.fuelPrice || request.body.fuelPrice;
+    
+        if(!distance || !fuelEfficiency || !fuelPrice) {
+            return {
+                status: 400,
+                body: `Missing required parameters (${!distance ? ' distance, ' : ''} ${!fuelEfficiency ? 'fuelEfficiency, ' : ''} ${!fuelPrice ? 'fuelPrice' : ''})`,
+            }
+        }
+    
+        const totalCost = calculateTripCost(Number.parseFloat(distance), Number.parseFloat(fuelEfficiency), Number.parseFloat(fuelPrice));
+    
+        return { body: totalCost, status: 200 };
+    } catch (error) {
+        context.log(error);
         return {
-            status: 400,
-            body: `Missing required parameters (${!distance ? ' distance, ' : ''} ${!fuelEfficiency ? 'fuelEfficiency, ' : ''} ${!fuelPrice ? 'fuelPrice' : ''})`,
+            body: "Internal Server Error",
+            status: 500,
         }
     }
 
-    const totalCost = calculateTripCost(Number.parseFloat(distance), Number.parseFloat(fuelEfficiency), Number.parseFloat(fuelPrice));
-
-    return { body: totalCost, status: 200 };
 }
 
 app.http('tripCost', {
