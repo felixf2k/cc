@@ -5,10 +5,10 @@ async function handler(
     request,
 ) {
     try {
-        const distance = request.query.distance || request.body.distance;
+        const distance = request.query.distance || (request.body && request.body.distance);
         const fuelEfficiency =
-            request.query.fuelEfficiency || request.body.fuelEfficiency;
-        const fuelPrice = request.query.fuelPrice || request.body.fuelPrice;
+            request.query.fuelEfficiency || (request.body && request.body.fuelEfficiency);
+        const fuelPrice = request.query.fuelPrice || (request.body && request.body.fuelPrice);
     
         if(!distance || !fuelEfficiency || !fuelPrice) {
             context.res = {
