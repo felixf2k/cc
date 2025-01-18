@@ -1,10 +1,8 @@
-import {
-    app,
-} from '@azure/functions';
+module.exports = handler;
 
 async function handler(
+    context,
     request,
-    context
 ) {
     try {
         const distance = request.query.distance || request.body.distance;
@@ -13,7 +11,7 @@ async function handler(
         const fuelPrice = request.query.fuelPrice || request.body.fuelPrice;
     
         if(!distance || !fuelEfficiency || !fuelPrice) {
-            return {
+            context.res = {
                 status: 400,
                 body: `Missing required parameters (${!distance ? ' distance, ' : ''} ${!fuelEfficiency ? 'fuelEfficiency, ' : ''} ${!fuelPrice ? 'fuelPrice' : ''})`,
             }
@@ -21,21 +19,16 @@ async function handler(
     
         const totalCost = calculateTripCost(Number.parseFloat(distance), Number.parseFloat(fuelEfficiency), Number.parseFloat(fuelPrice));
     
-        return { body: totalCost, status: 200 };
+        context.res = { body: totalCost, status: 200 };
     } catch (error) {
         context.log(error);
-        return {
+        context.res = {
             body: "Internal Server Error",
             status: 500,
         }
     }
 
 }
-
-app.http('tripCost', {
-    methods: ['GET'],
-    handler,
-});
 
 function calculateTripCost(
     distance,
