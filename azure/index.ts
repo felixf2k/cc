@@ -18,8 +18,8 @@ async function helloWorld1(
     return { body: totalCost };
 }
 
-app.http('helloWorld1', {
-    methods: ['GET', 'POST'],
+app.http('tripCost', {
+    methods: ['GET'],
     handler: helloWorld1,
 });
 
