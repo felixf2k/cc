@@ -2,10 +2,12 @@ import {
     app,
     HttpRequest,
     HttpResponseInit,
+    InvocationContext
 } from '@azure/functions';
 
 async function handler(
     request: HttpRequest,
+    context: InvocationContext
 ): Promise<HttpResponseInit> {
     try {
         const distance: string = request.query.distance || request.body.distance;
